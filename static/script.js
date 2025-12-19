@@ -16,6 +16,41 @@ document.addEventListener('DOMContentLoaded', () => {
             addToCart(id, name, price, image);
         }
     });
+
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+
+    // Product search functionality
+    const productSearchInput = document.getElementById('product-search-input');
+    if (productSearchInput) {
+        productSearchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+
+            productCards.forEach(card => {
+                const productName = card.getAttribute('data-name') || '';
+                const productCategory = card.getAttribute('data-category') || '';
+
+                if (productName.includes(searchTerm) || productCategory.includes(searchTerm)) {
+                    card.style.display = ''; // Show product
+                } else {
+                    card.style.display = 'none'; // Hide product
+                }
+            });
+        });
+        
+        // Prevent form submission
+        const productSearchForm = document.getElementById('product-search-form');
+        if (productSearchForm) {
+            productSearchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+            });
+        }
+    }
 });
 
 function addToCart(id, name, price, image) {

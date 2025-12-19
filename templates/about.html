@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h1 class="text-center mb-4">About Jai Bhole Supermarket</h1>
+            <p class="lead text-center mb-5">Your one-stop shop for fresh, high-quality groceries and household essentials. We are committed to providing our customers with the best products at the best prices.</p>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="card-title text-primary">Our Mission</h2>
+                    <p class="card-text">To bring fresh and high-quality products to our community, ensuring that every family has access to healthy and affordable food. We believe in building a strong community through good food and great service.</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="card-title text-primary">Our History</h2>
+                    <p class="card-text">Founded in 2023, Jai Bhole Supermarket started as a small family-owned store with a passion for providing fresh, locally sourced produce. Over the years, we have grown into a full-service supermarket, but our commitment to quality and community has remained the same.</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="card-title text-primary">Our Values</h2>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> <strong>Quality:</strong> We are committed to sourcing the best products for our customers.</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> <strong>Community:</strong> We believe in supporting our local community and building strong relationships.</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> <strong>Integrity:</strong> We operate with honesty and transparency in everything we do.</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> <strong>Service:</strong> We strive to provide the best possible service to our customers.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center mb-4">
+                <img src="{{ about_image }}" alt="Our Supermarket Exterior" class="img-fluid rounded shadow-sm" style="max-height: 400px; object-fit: cover;">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

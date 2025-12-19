@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 import json
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 app.config['SECRET_KEY'] = 'jai_bhole_supermarket_secret_key' # Change this for production
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///market.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -56,8 +56,30 @@ def admin_required(f):
 # Routes
 @app.route('/')
 def index():
-    products = Product.query.all()
-    return render_template('index.html', products=products)
+    all_products = Product.query.all()
+    products_by_category = {}
+    for product in all_products:
+        products_by_category.setdefault(product.category, []).append(product)
+    
+    store_images = [
+        url_for('static', filename='img/interior1.webp'),
+        url_for('static', filename='img/interior2.webp'),
+        url_for('static', filename='img/interior3.webp'),
+        url_for('static', filename='img/interior4.webp'),
+        url_for('static', filename='img/interior5.webp'),
+        url_for('static', filename='img/interior6.webp'),
+        url_for('static', filename='img/interior7.webp'),
+    ]
+    
+    return render_template('index.html', products_by_category=products_by_category, store_images=store_images)
+
+@app.route('/about')
+def about():
+    return render_template('about.html', about_image=url_for('static', filename='img/exterior1.jpg'))
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html', contact_image=url_for('static', filename='img/interior2.webp'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

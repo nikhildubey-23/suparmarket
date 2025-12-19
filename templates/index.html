@@ -1,62 +1,106 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<!-- Hero Section -->
-<section class="hero-section">
-    <div class="hero-content">
-        <h1>Fresh & Organic <span class="highlight">Groceries</span></h1>
-        <p>Delivered straight to your doorstep within minutes.</p>
-        <a href="#products" class="btn-primary">Shop Now</a>
-    </div>
-    <div class="hero-image">
-        <img src="https://cdni.iconscout.com/illustration/premium/thumb/grocery-delivery-scooter-illustration-download-in-svg-png-gif-file-formats--service-food-pack-e-commerce-shopping-illustrations-2856086.png"
-            alt="Delivery" />
-    </div>
-</section>
-
-<!-- Features Section -->
-<section class="features">
-    <div class="feature-card">
-        <i class="fas fa-truck-fast"></i>
-        <h3>Fast Delivery</h3>
-        <p>Within 30 minutes</p>
-    </div>
-    <div class="feature-card">
-        <i class="fas fa-leaf"></i>
-        <h3>Fresh Organic</h3>
-        <p>100% Quality Guarantee</p>
-    </div>
-    <div class="feature-card">
-        <i class="fas fa-tags"></i>
-        <h3>Best Prices</h3>
-        <p>Daily Offers & Deals</p>
-    </div>
-</section>
-
-<!-- Product Grid -->
-<section id="products" class="product-section">
-    <h2 class="section-title">Latest Products</h2>
-    <div class="product-grid">
-        {% for product in products %}
-        <div class="product-card">
-            <div class="product-image">
-                <img src="{{ product.image_url }}" alt="{{ product.name }}">
-                <span class="category-tag">{{ product.category }}</span>
-            </div>
-            <div class="product-info">
-                <h3>{{ product.name }}</h3>
-                <div class="price-row">
-                    <span class="price">₹{{ product.price }}</span>
-                    <button class="btn-add-cart" data-id="{{ product.id }}" data-name="{{ product.name }}"
-                        data-price="{{ product.price }}" data-image="{{ product.image_url }}">
-                        <i class="fas fa-cart-plus"></i> Add
-                    </button>
+<div class="container-fluid mt-3">
+    <div class="row">
+        <aside class="col-lg-3 col-md-4 mb-4">
+            <div class="bg-white p-3 rounded shadow-sm">
+                <h3 class="mb-3">Categories</h3>
+                <div class="list-group">
+                    {% for category in products_by_category.keys() %}
+                    <a href="#{{ category.lower() }}-category" class="list-group-item list-group-item-action">{{ category }}</a>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
-        {% endfor %}
-    </div>
-</section>
+        </aside>
 
+        <div class="col-lg-9 col-md-8">
+            <!-- Hero Section -->
+            <section class="jumbotron bg-light p-5 rounded-lg shadow-sm mb-4 d-flex align-items-center justify-content-between">
+                <div class="hero-content">
+                    <h1 class="display-4">Fresh & Organic <span class="text-primary">Groceries</span></h1>
+                    <p class="lead">Delivered straight to your doorstep within minutes.</p>
+                    <a href="#products" class="btn btn-primary btn-lg mt-3">Shop Now</a>
+                </div>
+                <div class="hero-image d-none d-md-block">
+                    <img src="{{ url_for('static', filename='img/interior1.webp') }}" class="img-fluid rounded" alt="Fresh Groceries" style="max-height: 250px; object-fit: cover;">
+                </div>
+            </section>
+
+            <!-- Store Showcase Section -->
+            <section id="store-showcase" class="mb-4">
+                <h2 class="text-center mb-4 section-title">Our Store Glimpses</h2>
+                <div class="row g-3">
+                    {% for image_url in store_images %}
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card h-100 shadow-sm">
+                            <img src="{{ image_url }}" class="card-img-top img-fluid" alt="Store Image" style="height: 150px; object-fit: cover;">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="row g-3 mb-4 text-center">
+                <div class="col-md-4">
+                    <div class="card p-4 shadow-sm h-100">
+                        <i class="fas fa-truck-fast fa-3x text-primary mb-3"></i>
+                        <h3>Fast Delivery</h3>
+                        <p>Within 30 minutes</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-4 shadow-sm h-100">
+                        <i class="fas fa-leaf fa-3x text-success mb-3"></i>
+                        <h3>Fresh Organic</h3>
+                        <p>100% Quality Guarantee</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-4 shadow-sm h-100">
+                        <i class="fas fa-tags fa-3x text-info mb-3"></i>
+                        <h3>Best Prices</h3>
+                        <p>Daily Offers & Deals</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Product Grid -->
+            <section id="products">
+                <h2 class="text-center mb-4 section-title">Latest Products</h2>
+                <div class="input-group mb-4 search-bar">
+                    <input type="text" class="form-control" placeholder="Search for products..." id="product-search-input">
+                    <button class="btn btn-primary" type="button" id="search-button"><i class="fas fa-search"></i> Search</button>
+                </div>
+
+                {% for category, products_in_category in products_by_category.items() %}
+                <div class="mb-5" id="{{ category.lower() }}-category">
+                    <h3 class="mb-3 text-capitalize">{{ category }}</h3>
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        {% for product in products_in_category %}
+                        <div class="col">
+                            <div class="card h-100 shadow-sm product-card" data-name="{{ product.name | lower }}" data-category="{{ product.category | lower }}">
+                                <img src="{{ product.image_url }}" class="card-img-top img-fluid" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text text-muted">{{ product.category }}</p>
+                                    <div class="mt-auto d-flex justify-content-between align-items-center">
+                                        <span class="fs-5 fw-bold">₹{{ product.price }}</span>
+                                        <button class="btn btn-success btn-sm btn-add-cart" data-id="{{ product.id }}" data-name="{{ product.name }}"
+                                            data-price="{{ product.price }}" data-image="{{ product.image_url }}">
+                                            <i class="fas fa-cart-plus"></i> Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+        </div>
+    </div>
+</div>
 {% endblock %}
