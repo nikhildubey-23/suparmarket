@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>Fresh & Organic <span class="highlight">Groceries</span></h1>
+        <p>Delivered straight to your doorstep within minutes.</p>
+        <a href="#products" class="btn-primary">Shop Now</a>
+    </div>
+    <div class="hero-image">
+        <img src="https://cdni.iconscout.com/illustration/premium/thumb/grocery-delivery-scooter-illustration-download-in-svg-png-gif-file-formats--service-food-pack-e-commerce-shopping-illustrations-2856086.png"
+            alt="Delivery" />
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="feature-card">
+        <i class="fas fa-truck-fast"></i>
+        <h3>Fast Delivery</h3>
+        <p>Within 30 minutes</p>
+    </div>
+    <div class="feature-card">
+        <i class="fas fa-leaf"></i>
+        <h3>Fresh Organic</h3>
+        <p>100% Quality Guarantee</p>
+    </div>
+    <div class="feature-card">
+        <i class="fas fa-tags"></i>
+        <h3>Best Prices</h3>
+        <p>Daily Offers & Deals</p>
+    </div>
+</section>
+
+<!-- Product Grid -->
+<section id="products" class="product-section">
+    <h2 class="section-title">Latest Products</h2>
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card">
+            <div class="product-image">
+                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                <span class="category-tag">{{ product.category }}</span>
+            </div>
+            <div class="product-info">
+                <h3>{{ product.name }}</h3>
+                <div class="price-row">
+                    <span class="price">₹{{ product.price }}</span>
+                    <button class="btn-add-cart" data-id="{{ product.id }}" data-name="{{ product.name }}"
+                        data-price="{{ product.price }}" data-image="{{ product.image_url }}">
+                        <i class="fas fa-cart-plus"></i> Add
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

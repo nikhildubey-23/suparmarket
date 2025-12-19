@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="cart-container">
+    <h2>Your Shopping Cart</h2>
+
+    <div class="cart-content">
+        <div class="cart-items" id="cart-items-container">
+            <!-- Items will be populated by JS -->
+            <p class="empty-msg">Your cart is empty.</p>
+        </div>
+
+        <div class="cart-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-row">
+                <span>Total Items:</span>
+                <span id="summary-count">0</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total Amount:</span>
+                <span id="summary-total">₹0</span>
+            </div>
+
+            {% if session.get('user_id') %}
+            <button class="btn-checkout" onclick="placeOrder()">Proceed to Buy</button>
+            {% else %}
+            <a href="{{ url_for('login') }}" class="btn-checkout btn-login-first">Login to Checkout</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
